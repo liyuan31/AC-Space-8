@@ -39,3 +39,52 @@ function dim(color, recover=false) {
         squares.attr("fill", originalColor);
     }
 }
+
+/*
+    Dimming three colors alternatedly.
+*/
+function flashThreeColors() {
+    const t = 800;  // transtion duration
+    // get the rgb value string for three colors
+    const magenta = d3.select(".magenta").attr("fill");
+    const gray = d3.select(".gray").attr("fill");
+    const cyan = d3.select(".cyan").attr("fill");
+    // create selections for groups
+    const squares = d3.selectAll("rect");
+    const nonMagenta = squares.filter(".gray, .cyan");
+    const nonGray = squares.filter(".magenta, .cyan");
+    const nonCyan = squares.filter(".magenta, .gray");
+
+    /*
+        To achieve desired effect, the following steps are followed.
+        - dim all squares
+        - light magenta
+        - dim magenta and light gray
+        - dim gray and light cyan
+        - dim cyan and light magenta
+    */
+
+    function dimNonMagenta() {
+        nonMagenta.transition()
+            .duration(t)
+            .attr("fill", "#212422")
+            .on("end", grayTrigger)
+    }
+
+    function grayTrigger() {
+        nonGray.transition()
+            .duration(t)
+            .attr("fill", "#212422")
+            .on("end", cyanTrigger)
+    }
+
+    function cyanTrigger() {
+        nonCyan.transition()
+            .duration(t)
+            .attr("fill", "#212422")
+            .on("end", flashThreeColors)
+    }
+
+    magentaTrigger();
+
+}

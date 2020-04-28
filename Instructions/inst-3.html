@@ -35,7 +35,10 @@
         draw_acvs(drawDigits=false);
 
         let lines = [
-            "As you might have noticed"
+            "As you might have noticed,",
+            "the squares have three",
+            "different colors:",
+            "Magenta, gray, and cyan."
         ];
         const texts = svg.append("svg");
         texts.selectAll("text").data(lines)
@@ -50,9 +53,7 @@
         addFooter();
         footerFlash();
 
-        // dim("magenta");
-        // dim("gray");
-        // dim("cyan");
+        flashThreeColors();
 
     </script>
 </body>
