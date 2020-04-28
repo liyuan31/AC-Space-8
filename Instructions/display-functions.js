@@ -11,16 +11,19 @@ class Square {
         this.digit = digit; // text on square
     }
 }
-// Generate data for d3 to use.
-// @para
-// radius = the radius of the ring
-// count = the number of squares on this ring
-// cx = x coord of ring center
-// cy = y coord of ring center
-// w = width (and height) of the square
-// colors = a list of strings representing color of each square
-// positions = a list of numbers representing the arbitrary position number of each square
-// digits = a list of numbers representing the digits on each square
+
+/*
+    Generate data for d3 to use.
+    @para
+    radius = the radius of the ring
+    count = the number of squares on this ring
+    cx = x coord of ring center
+    cy = y coord of ring center
+    w = width (and height) of the square
+    colors = a list of strings representing color of each square
+    positions = a list of numbers representing the arbitrary position number of each square
+    digits = a list of numbers representing the digits on each square
+*/
 function generate_data_for_one_ring_of_squares(radius, count, cx, cy, w, colors, positions, digits) {
 
     let result = [];
