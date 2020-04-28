@@ -21,3 +21,7 @@ body {
     top: 0px;
     left: 0;
 }
+
+#inst-footer {
+    font-size: 0.3vmin;
+}

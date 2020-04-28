@@ -134,7 +134,7 @@ function draw_acvs(drawDigits = true) {
 function addFooter() {
     const footer = svg
         .append("text")
-        .attr("id", "footer")
+        .attr("id", "inst-footer")
         .text("Press <SPACE> to continue ...")
         .attr("x", "40")
         .attr("y", "80")

@@ -1,5 +1,5 @@
 function footerFlash() {
-    d3.selectAll("#footer")
+    d3.selectAll("#inst-footer")
         .transition()
         .duration(2000)
         .attr("fill", "white")
