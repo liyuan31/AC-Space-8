@@ -26,3 +26,11 @@ function targetFlash() {
     }
     targetsFlashTrigger();
 }
+
+/*
+    Dim a certain colored squares.
+*/
+function dim(color) {
+    d3.selectAll(`.${color}`)
+        .attr("fill", "lightgray");
+}
