@@ -142,3 +142,39 @@ function addFooter() {
         .attr("fill", "white");
 }
 
+function drawCue() {
+
+    // First get some necessary parameters from the parent element,
+    // namely the center coordinates of the display.
+    const cx = 100 - d/2, cy = d/2;
+
+    // specify the radius of the cue circle
+    const r = 2.5;
+
+    // draw the svgs
+    const cue = svg.append("svg");
+
+    // this is the outline circle of the cue
+    const outline = cue.append("circle")
+        .attr("cx", cx)
+        .attr("cy", cy)
+        .attr("r", r)
+        .attr("stroke", "white")
+        .attr("stroke-width", "0.2");
+
+    // this is the divider
+    const divider = cue.append("line")
+        .attr("x1", cx-r)
+        .attr("y1", cy)
+        .attr("x2", cx+r)
+        .attr("y2", cy)
+        .attr("stroke", "white")
+        .attr("stroke-width", "0.2");
+
+    // Now begin adding the colorful small cue circles.
+    // This is simplied because the demo display is staged.
+    // But in the actually experiment some randomization is needed.
+    
+
+    
+}

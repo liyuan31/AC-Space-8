@@ -116,7 +116,7 @@ function threeColorsDemo() {
 */
 function twoGroupsDemo() {
 
-    const t = 1500;  // transtion duration
+    const t = 1000;  // transtion duration
     const dimColor = "#0a0a0a";
 
     // get the rgb value string for three colors
