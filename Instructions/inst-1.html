@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instruction Page 1</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+
+<body>
+
+    <div id="workspace"></div>
+
+    <script src="HtmlGui.js"></script>
+    <script src="inst-util.js"></script>
+    <script src="inst-display-func.js"></script>
+    <script src="inst-display-animation.js"></script>
+    <script>
+
+        let gui = new HtmlGui();
+        const container = gui.container;
+        const svg = gui.svg;
+
+        const w = 3;    // width and height of squares
+        const d = 60;  // diameter of the whole acvs stimuli display
+        const r = (d - w) / 2;    // outer ring radius
+        const cx = 70 - w / 2, cy = 30 - w / 2;
+        const allColors = ["rgb(254, 0, 254)", "rgb(0, 150, 150)", "rgb(105, 105, 105)"];
+        const colors = "212100110212110220222111121020001022100010220020211120";    // for reproducible display
+        const digits = "978669996768697888887889969677693997967787586886767679";
+        let data = generate_data_for_all_squares(w, r, cx, cy, allColors, colors, digits);
+
+        draw_acvs();
+
+        let lines = [
+            "Welcome!",
+            "",
+            "In this experiment, you will be",
+            "searching for a target square.",
+            "",
+            "TWO targets will appear on",
+            "every trial, both having a digit",
+            "between 2 and 5 on them."
+        ];
+        const texts = svg.append("svg");
+        texts.selectAll("text").data(lines)
+            .enter().append("text")
+            .text( function(d) { return d })
+            .attr("x", 2)
+            // TODO: it's very strange that when I write like d,i=>i*5 it won't work at all
+            .attr("y", function(d,i) { return (i+1)*4 } )
+            .attr("font-size", w)
+            .attr("fill", "white");
+
+        addFooter();
+        footerFlash();
+
+        // dim("magenta");
+        // dim("gray");
+        // dim("cyan");
+
+    </script>
+</body>
+
+</html>

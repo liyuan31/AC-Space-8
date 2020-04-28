@@ -73,14 +73,14 @@ function generate_data_for_all_squares(w, r, cx, cy, allColors, colors, digits) 
         for (let i = startIndex; i <= endIndex; i++) { result.push(`${i}`) }
         return result;
     }
-    const data = generate_data_for_one_ring_of_squares(r, 24, cx, cy, w, get_a_list_of_colors(24), get_a_list_of_positions(0, 23), get_a_list_of_digits(24))
+    const result = generate_data_for_one_ring_of_squares(r, 24, cx, cy, w, get_a_list_of_colors(24), get_a_list_of_positions(0, 23), get_a_list_of_digits(24))
         .concat(generate_data_for_one_ring_of_squares(r * 0.75, 18, cx, cy, w, get_a_list_of_colors(18), get_a_list_of_positions(24, 41), get_a_list_of_digits(18))
             .concat(generate_data_for_one_ring_of_squares(r * 0.50, 12, cx, cy, w, get_a_list_of_colors(12), get_a_list_of_positions(42, 54), get_a_list_of_digits(12))));
-    return data;
+    return result;
 }
 
 // Use d3 to draw the squares and digits on the screen
-function draw_acvs() {
+function draw_acvs(drawDigits = true) {
     // Draw the rectangles on the screen:
     const acvs = svg.append("svg");
     const rects = acvs.selectAll("rect").data(data);
@@ -113,17 +113,21 @@ function draw_acvs() {
         .attr("id", function (d) { return `sq_${d.no}` });
     rects.exit().remove();
 
-    // Draw the text on the screen:
-    let text_shift = 0.65;
-    let text = acvs.selectAll("text").data(data);
-    text.enter().append("text")
-        .attr("x", (function (d) { return d.x + w / 3.25 + "" }))
-        .attr("y", (function (d) { return d.y + w / 1.35 + "" }))
-        .attr("fill", "white")
-        .attr("class", "ace_pretty_text")
-        .attr("font-size", w * text_shift + "")
-        .text(function (d) { return d.digit });
-    text.exit().remove();
+    if (drawDigits) {
+        // Draw the text on the screen:
+        let text_shift = 0.65;
+        let text = acvs.selectAll("text").data(data);
+        text.enter().append("text")
+            .attr("x", (function (d) { return d.x + w / 3.25 + "" }))
+            .attr("y", (function (d) { return d.y + w / 1.35 + "" }))
+            .attr("fill", "white")
+            .attr("class", "ace_pretty_text")
+            .attr("font-size", w * text_shift + "")
+            .text(function (d) { return d.digit });
+        text.exit().remove();
+    }
+
+
 }
 
 
