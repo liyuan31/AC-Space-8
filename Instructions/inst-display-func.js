@@ -113,21 +113,6 @@ function draw_acvs() {
         .attr("id", function (d) { return `sq_${d.no}` });
     rects.exit().remove();
 
-    // just add some flash effect on the two targets
-    const targets = d3.selectAll(".target");
-    const targetsFlashTrigger = function () {
-        targets
-            .transition()
-            .duration(800)
-            .attr("stroke", "white")
-            .attr("stroke-width", ".4")
-            .transition()
-            .duration(800)
-            .attr("stroke", null)
-            .on("end", targetsFlashTrigger)
-    }
-    // targetsFlashTrigger();
-
     // Draw the text on the screen:
     let text_shift = 0.65;
     let text = acvs.selectAll("text").data(data);
@@ -162,4 +147,21 @@ function addFooter() {
     }
 
     footerFlashTrigger();
+}
+
+function targetFlash() {
+    // just add some flash effect on the two targets
+    const targets = d3.selectAll(".target");
+    const targetsFlashTrigger = function () {
+        targets
+            .transition()
+            .duration(800)
+            .attr("stroke", "yellow")
+            .attr("stroke-width", "0.7")
+            .transition()
+            .duration(800)
+            .attr("stroke", null)
+            .on("end", targetsFlashTrigger)
+    }
+    targetsFlashTrigger();
 }
