@@ -30,7 +30,12 @@ function targetFlash() {
 /*
     Dim a certain colored squares.
 */
-function dim(color) {
-    d3.selectAll(`.${color}`)
-        .attr("fill", "lightgray");
+function dim(color, recover=false) {
+    const originalColor = d3.select(`.${color}`).attr("fill");
+    const squares = d3.selectAll(`.${color}`)
+        .transition().duration(500)
+            .attr("fill", "#212422");
+    if(recover) {
+        squares.attr("fill", originalColor);
+    }
 }

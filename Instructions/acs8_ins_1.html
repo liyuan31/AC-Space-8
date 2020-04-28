@@ -13,17 +13,20 @@
 
     <div id="workspace"></div>
 
-
+    <script src="HtmlGui.js"></script>
     <script src="inst-util.js"></script>
     <script src="inst-display-func.js"></script>
     <script src="inst-display-animation.js"></script>
     <script>
-        const container = d3.select("#workspace").append("div")
-            .attr("class", "ace_svg_container");
-        const svg = container.append("svg")
-            .attr("class", "ace_svg_content_responsive")
-            .attr("viewBox", "0 0 100 100")
-            .attr("preserveAspectRatio", "xMinYMin meet");
+        // const container = d3.select("#workspace").append("div")
+        //     .attr("class", "ace_svg_container");
+        // const svg = container.append("svg")
+        //     .attr("class", "ace_svg_content_responsive")
+        //     .attr("viewBox", "0 0 100 100")
+        //     .attr("preserveAspectRatio", "xMinYMin meet");
+        let gui = new HtmlGui();
+        const container = gui.container;
+        const svg = gui.svg;
 
         const w = 3;    // width and height of squares
         const d = 60;  // diameter of the whole acvs stimuli display
@@ -52,7 +55,9 @@
         addFooter();
         footerFlash();
 
-        dim("magenta");
+        // dim("magenta");
+        // dim("gray");
+        // dim("cyan");
 
     </script>
 </body>
