@@ -138,6 +138,7 @@ function addFooter() {
         .text("Press <SPACE> to continue ...")
         .attr("x", "40")
         .attr("y", "80")
-        .attr("font-size", w + "");
+        .attr("font-size", w + "")
+        .attr("fill", "white");
 }
 
