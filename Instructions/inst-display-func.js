@@ -47,7 +47,7 @@ function generate_data_for_one_ring_of_squares(radius, count, cx, cy, w, colors,
     return result;
 }
 
-function generate_data_for_all_squares(w, d, r, cx, cy, allColors, colors, digits) {
+function generate_data_for_all_squares(w, r, cx, cy, allColors, colors, digits) {
 
     const get_a_list_of_colors = function (n) {
         let result = [];
@@ -139,4 +139,27 @@ function draw_acvs() {
         .attr("font-size", w * text_shift + "")
         .text(function (d) { return d.digit });
     text.exit().remove();
+}
+
+
+function addFooter() {
+    const footer = svg
+        .append("text")
+        .text("Press <SPACE> to continue ...")
+        .attr("x", "40")
+        .attr("y", "80")
+        .attr("font-size", w + "");
+
+    const footerFlashTrigger = function () {
+        footer
+            .transition()
+            .duration(2000)
+            .attr("fill", "white")
+            .transition()
+            .duration(2000)
+            .attr("fill", "black")
+            .on("end", footerFlashTrigger);
+    }
+
+    footerFlashTrigger();
 }

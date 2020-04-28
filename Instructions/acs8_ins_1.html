@@ -31,7 +31,7 @@
         const allColors = ["rgb(254, 0, 254)", "rgb(0, 150, 150)", "rgb(105, 105, 105)"];
         const colors = "212100110212110220222111121020001022100010220020211120";    // for reproducible display
         const digits = "978669996768697888887889969677693997967787586886767679";
-        let data = generate_data_for_all_squares(w, d, r, cx, cy, allColors, colors, digits);
+        let data = generate_data_for_all_squares(w, r, cx, cy, allColors, colors, digits);
 
         draw_acvs();
 
@@ -47,14 +47,7 @@
             .attr("font-size", w)
             .attr("fill", "white");
 
-        const footer = svg
-            .append("text")
-                .text("Press <SPACE> to continue ...")
-                .attr("x", "40")
-                .attr("y", "80")
-                .attr("font-size", w+"")
-                .attr("fill", "white");
-
+        addFooter();
 
     </script>
 </body>

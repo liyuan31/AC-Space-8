@@ -9,7 +9,8 @@
 function breathe(selection, colorFrom, colorTo, frequency) {
     const duration = 1/frequency*1000;
     selection.attr("fill", colorFrom);
-    selection.transition(duration)
+    selection.transition()
+        .duration(duration)
         .attr("fill", colorTo)
         .on("end", breathe(selection, colorFrom, colorTo, frequency));
 }
