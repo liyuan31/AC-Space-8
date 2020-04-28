@@ -16,6 +16,7 @@
 
     <script src="inst-util.js"></script>
     <script src="inst-display-func.js"></script>
+    <script src="inst-display-animation.js"></script>
     <script>
         const container = d3.select("#workspace").append("div")
             .attr("class", "ace_svg_container");
@@ -49,6 +50,7 @@
             .attr("fill", "white");
 
         addFooter();
+        footerFlash();
 
     </script>
 </body>

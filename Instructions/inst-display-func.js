@@ -130,38 +130,10 @@ function draw_acvs() {
 function addFooter() {
     const footer = svg
         .append("text")
+        .attr("id", "footer")
         .text("Press <SPACE> to continue ...")
         .attr("x", "40")
         .attr("y", "80")
         .attr("font-size", w + "");
-
-    const footerFlashTrigger = function () {
-        footer
-            .transition()
-            .duration(2000)
-            .attr("fill", "white")
-            .transition()
-            .duration(2000)
-            .attr("fill", "black")
-            .on("end", footerFlashTrigger);
-    }
-
-    footerFlashTrigger();
 }
 
-function targetFlash() {
-    // just add some flash effect on the two targets
-    const targets = d3.selectAll(".target");
-    const targetsFlashTrigger = function () {
-        targets
-            .transition()
-            .duration(800)
-            .attr("stroke", "yellow")
-            .attr("stroke-width", "0.7")
-            .transition()
-            .duration(800)
-            .attr("stroke", null)
-            .on("end", targetsFlashTrigger)
-    }
-    targetsFlashTrigger();
-}
