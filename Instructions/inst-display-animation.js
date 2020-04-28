@@ -44,16 +44,20 @@ function dim(color, recover=false) {
     Dimming three colors alternatedly.
 */
 function flashThreeColors() {
-    const t = 800;  // transtion duration
+    const t = 1500;  // transtion duration
+    const dimColor = "#0f0f0f";
     // get the rgb value string for three colors
     const magenta = d3.select(".magenta").attr("fill");
     const gray = d3.select(".gray").attr("fill");
     const cyan = d3.select(".cyan").attr("fill");
     // create selections for groups
     const squares = d3.selectAll("rect");
-    const nonMagenta = squares.filter(".gray, .cyan");
-    const nonGray = squares.filter(".magenta, .cyan");
-    const nonCyan = squares.filter(".magenta, .gray");
+    const magentas = squares.filter(".magenta");
+    const grays = squares.filter(".gray");
+    const cyans = squares.filter(".cyan");
+    // const nonMagenta = squares.filter(".gray, .cyan");
+    // const nonGray = squares.filter(".magenta, .cyan");
+    // const nonCyan = squares.filter(".magenta, .gray");
 
     /*
         To achieve desired effect, the following steps are followed.
@@ -64,27 +68,42 @@ function flashThreeColors() {
         - dim cyan and light magenta
     */
 
-    function dimNonMagenta() {
-        nonMagenta.transition()
+    squares.attr("fill", dimColor);
+
+    const lightMagenta = function() {
+        magentas.transition()
             .duration(t)
-            .attr("fill", "#212422")
-            .on("end", grayTrigger)
+            .attr("fill", magenta)
+            .on("end", dimMagentaLightGray)
     }
 
-    function grayTrigger() {
-        nonGray.transition()
+    const dimMagentaLightGray = function() {
+        magentas.transition()
             .duration(t)
-            .attr("fill", "#212422")
-            .on("end", cyanTrigger)
+            .attr("fill", dimColor);
+        grays.transition()
+            .duration(t)
+            .attr("fill", gray)
+            .on("end", dimGrayLightCyan)
     }
 
-    function cyanTrigger() {
-        nonCyan.transition()
+    const dimGrayLightCyan = function() {
+        grays.transition()
             .duration(t)
-            .attr("fill", "#212422")
-            .on("end", flashThreeColors)
+            .attr("fill", dimColor);
+        cyans.transition()
+            .duration(t)
+            .attr("fill", cyan)
+            .on("end", dimCyan)
     }
 
-    magentaTrigger();
+    const dimCyan = function() {
+        cyans.transition()
+            .duration(t)
+            .attr("fill", dimColor)
+            .on("end", lightMagenta)
+    }
+
+    lightMagenta();
 
 }
