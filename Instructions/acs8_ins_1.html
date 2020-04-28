@@ -14,7 +14,8 @@
     <div id="workspace"></div>
 
 
-    <script src="display-functions.js"></script>
+    <script src="inst-util.js"></script>
+    <script src="inst-display-func.js"></script>
     <script>
         const container = d3.select("#workspace").append("div")
             .attr("class", "ace_svg_container");
@@ -46,12 +47,14 @@
             .attr("font-size", w)
             .attr("fill", "white");
 
-        const footer = svg.append("text")
-            .text("Press <SPACE> to continue ...")
-            .attr("x", "40")
-            .attr("y", "80")
-            .attr("font-size", w+"")
-            .attr("fill", "white");
+        const footer = svg
+            .append("text")
+                .text("Press <SPACE> to continue ...")
+                .attr("x", "40")
+                .attr("y", "80")
+                .attr("font-size", w+"")
+                .attr("fill", "white");
+
 
     </script>
 </body>
