@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Instructions</title>
+    <title>Instruction Page 1</title>
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <style>
 
@@ -126,7 +126,6 @@
             for (let i = startIndex; i <= endIndex; i++) { result.push(`${i}`) }
             return result;
         }
-        const positions = "1";
         const data = generate_data_for_one_ring_of_squares(r, 24, cx, cy, w, get_a_list_of_colors(24), get_a_list_of_positions(0, 23), get_a_list_of_digits(24))
             .concat(generate_data_for_one_ring_of_squares(r * 0.75, 18, cx, cy, w, get_a_list_of_colors(18), get_a_list_of_positions(24, 41), get_a_list_of_digits(18))
                 .concat(generate_data_for_one_ring_of_squares(r * 0.50, 12, cx, cy, w, get_a_list_of_colors(12), get_a_list_of_positions(42, 54), get_a_list_of_digits(12))));
@@ -137,8 +136,8 @@
         rects.enter().append("rect")
             .attr("width", function (d) { return d.w })
             .attr("height", function (d) { return d.h })
-            .attr("x", function (d) { return d.x + "" })
-            .attr("y", function (d) { return d.y + "" })
+            .attr("x", function (d) { return d.x })
+            .attr("y", function (d) { return d.y })
             .attr("fill", function (d) { return d.fill })
             .attr("class", function (d) {
                 // create a string representing class names
@@ -176,7 +175,7 @@
                 .attr("stroke", null)
                 .on("end", targetsFlashTrigger)
         }
-        targetsFlashTrigger();
+        // targetsFlashTrigger();
 
         // Draw the text on the screen:
         let text_shift = 0.65;
@@ -191,16 +190,17 @@
         text.exit().remove();
 
 
-        class line { constructor(text) { this.text = text; } }
-        let paragraphs = [new line("In this experiment, you will be"),
-        new line("searching for a target square")];
-        const texts = svg.append("g");
+        let paragraphs = ["In this experiment, you will be",
+            "searching for a target square"];
+        const texts = svg.append("svg");
         texts.selectAll("text").data(paragraphs)
             .enter().append("text")
-            .text(d => d.text)
-            .attr("x", 2)
-            .attr("y", 5)
-            .attr("font-size", w);
+                .text(d => d)
+                    .attr("x", 2)
+                    .attr("y", 2)
+                    .attr("font-size", w)
+                    .attr("fill", "white")
+                    .each(d,i => { console.log(i) } );
 
     </script>
 </body>
