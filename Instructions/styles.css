@@ -2,6 +2,7 @@ body {
     background-color: black;
     overflow: hidden;
     min-height: 100vmin;
+    font-family: 'Roboto', sans-serif;
 }
 
 .ace_svg_container {
