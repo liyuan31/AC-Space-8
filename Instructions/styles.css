@@ -1,0 +1,23 @@
+body {
+    background-color: black;
+    overflow: hidden;
+    min-height: 100vmin;
+}
+
+.ace_svg_container {
+    display: inline-block;
+    position: relative;
+    width: 90vmin;
+    height: 90vmin;
+    padding-bottom: 100%;
+    /* aspect ratio */
+    vertical-align: top;
+    overflow: hidden;
+}
+
+.ace_svg_content_responsive {
+    display: inline-block;
+    position: absolute;
+    top: 0px;
+    left: 0;
+}

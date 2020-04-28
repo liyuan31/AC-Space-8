@@ -5,32 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instruction Page 1</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
     <script src="https://d3js.org/d3.v5.min.js"></script>
-    <style>
-        body {
-            background-color: black;
-            overflow: hidden;
-            min-height: 100vmin;
-        }
-
-        .ace_svg_container {
-            display: inline-block;
-            position: relative;
-            width: 90vmin;
-            height: 90vmin;
-            padding-bottom: 100%;
-            /* aspect ratio */
-            vertical-align: top;
-            overflow: hidden;
-        }
-
-        .ace_svg_content_responsive {
-            display: inline-block;
-            position: absolute;
-            top: 0px;
-            left: 0;
-        }
-    </style>
 </head>
 
 <body>
@@ -59,14 +35,22 @@
         draw_acvs();
 
         let lines = ["In this experiment, you will be",
-            "searching for a target square"];
+            "searching for a target square."];
         const texts = svg.append("svg");
         texts.selectAll("text").data(lines)
             .enter().append("text")
-            .text(d => d)
+            .text( function(d) { return d })
             .attr("x", 2)
-            .attr("y", 2)
+            // TODO: it's very strange that when I write like d,i=>i*5 it won't work at all
+            .attr("y", function(d,i) { return (i+1)*4 } )
             .attr("font-size", w)
+            .attr("fill", "white");
+
+        const footer = svg.append("text")
+            .text("Press <SPACE> to continue ...")
+            .attr("x", "40")
+            .attr("y", "80")
+            .attr("font-size", w+"")
             .attr("fill", "white");
 
     </script>
