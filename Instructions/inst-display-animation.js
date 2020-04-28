@@ -43,7 +43,7 @@ function dim(color, recover=false) {
 /*
     Dimming three colors alternatedly.
 */
-function flashThreeColors() {
+function threeColorsDemo() {
     const t = 1500;  // transtion duration
     const dimColor = "#0f0f0f";
     // get the rgb value string for three colors
@@ -55,9 +55,6 @@ function flashThreeColors() {
     const magentas = squares.filter(".magenta");
     const grays = squares.filter(".gray");
     const cyans = squares.filter(".cyan");
-    // const nonMagenta = squares.filter(".gray, .cyan");
-    // const nonGray = squares.filter(".magenta, .cyan");
-    // const nonCyan = squares.filter(".magenta, .gray");
 
     /*
         To achieve desired effect, the following steps are followed.
@@ -106,4 +103,68 @@ function flashThreeColors() {
 
     lightMagenta();
 
+}
+
+/*
+    This is a function that allows two groups of squares to flash alternatively.
+    The grouping is quite arbitary, in this case it's magenta+gray & cyan.
+    To make it happen, we still need the following steps:
+    -- dim all the squares
+    -- light magenta+gray
+    -- dim magenta+gray and light cyan
+    -- dim cyan
+*/
+function twoGroupsDemo() {
+
+    const t = 1500;  // transtion duration
+    const dimColor = "#0a0a0a";
+
+    // get the rgb value string for three colors
+    const magenta = d3.select(".magenta").attr("fill");
+    const gray = d3.select(".gray").attr("fill");
+    const cyan = d3.select(".cyan").attr("fill");
+
+    // create selections for groups
+    const squares = d3.selectAll("rect");
+    const magentas = squares.filter(".magenta");
+    const grays = squares.filter(".gray");
+    const cyans = squares.filter(".cyan");
+    const nonMagenta = squares.filter(".gray, .cyan");
+    const nonGray = squares.filter(".magenta, .cyan");
+    const nonCyan = squares.filter(".magenta, .gray");
+    
+    // do the deed
+    squares.attr("fill", dimColor);
+
+    const lightMagentaAndGray = function() {
+        magentas.transition()
+            .duration(t)
+            .attr("fill", magenta);
+        grays.transition()
+            .duration(t)
+            .attr("fill", gray)
+            .on("end", dimMagentaAndGrayLightCyan)
+    }
+
+    const dimMagentaAndGrayLightCyan = function() {
+        nonCyan.transition()
+            .duration(t)
+            .attr("fill", dimColor);
+        cyans.transition()
+            .duration(t)
+            .attr("fill", cyan)
+            .on("end", dimCyan)
+    }
+
+    const dimCyan = function() {
+        cyans.transition()
+            .duration(t)
+            .attr("fill", dimColor)
+            .on("end", lightMagentaAndGray);
+    }
+
+    // pull the trigger
+    lightMagentaAndGray();
+
+    
 }

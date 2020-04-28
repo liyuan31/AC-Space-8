@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Instruction Page 3</title>
+    <title>Instruction Page 4</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
     <script src="https://d3js.org/d3.v5.min.js"></script>
@@ -36,13 +36,12 @@
         draw_acvs(drawDigits=false);
 
         let lines = [
-            "As you might have noticed,",
-            "the squares have three",
-            "different colors:",
-            "Magenta, gray, and cyan.",
-            "",
-            "Each color has about 1/3",
-            "of the squares."
+            "On every single trial,",
+            "the squares are separated",
+            "into TWO groups:",
+            "-- one group with one color",
+            "-- the other group with",
+            "two colors."
         ];
         const texts = svg.append("svg");
         texts.selectAll("text").data(lines)
@@ -56,7 +55,7 @@
 
         addFooter();
 
-        threeColorsDemo();
+        twoGroupsDemo();
 
     </script>
 </body>
