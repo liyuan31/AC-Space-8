@@ -62,7 +62,7 @@ function generate_data_for_all_squares(w, d, r, cx, cy, allColors, colors, digit
         }
         return result;
     }
-    
+
     // Helper function for generating a ring of <Square> objects
     // Given start and end index, return an array of strings representing positions
     const get_a_list_of_positions = function (startIndex, endIndex) {
@@ -74,4 +74,66 @@ function generate_data_for_all_squares(w, d, r, cx, cy, allColors, colors, digit
         .concat(generate_data_for_one_ring_of_squares(r * 0.75, 18, cx, cy, w, get_a_list_of_colors(18), get_a_list_of_positions(24, 41), get_a_list_of_digits(18))
             .concat(generate_data_for_one_ring_of_squares(r * 0.50, 12, cx, cy, w, get_a_list_of_colors(12), get_a_list_of_positions(42, 54), get_a_list_of_digits(12))));
     return data;
+}
+
+// Use d3 to draw the squares and digits on the screen
+function draw_acvs() {
+    // Draw the rectangles on the screen:
+    const acvs = svg.append("svg");
+    const rects = acvs.selectAll("rect").data(data);
+    rects.enter().append("rect")
+        .attr("width", function (d) { return d.w })
+        .attr("height", function (d) { return d.h })
+        .attr("x", function (d) { return d.x })
+        .attr("y", function (d) { return d.y })
+        .attr("fill", function (d) { return d.fill })
+        .attr("class", function (d) {
+            // create a string representing class names
+            let c = "";
+            // add color names as a first class
+            switch (d.fill) {
+                case "rgb(254, 0, 254)": c = "magenta"; break;
+                case "rgb(0, 150, 150)": c = "cyan"; break;
+                case "rgb(105, 105, 105)": c = "gray"
+            }
+            // add target/nontarget info as a second class
+            switch (d.digit) {
+                case "2":
+                case "3":
+                case "4":
+                case "5":
+                    c += " target"; break;
+                default: c += " nontarget"
+            }
+            return c;
+        })
+        .attr("id", function (d) { return `sq_${d.no}` });
+    rects.exit().remove();
+
+    // just add some flash effect on the two targets
+    const targets = d3.selectAll(".target");
+    const targetsFlashTrigger = function () {
+        targets
+            .transition()
+            .duration(800)
+            .attr("stroke", "white")
+            .attr("stroke-width", ".4")
+            .transition()
+            .duration(800)
+            .attr("stroke", null)
+            .on("end", targetsFlashTrigger)
+    }
+    // targetsFlashTrigger();
+
+    // Draw the text on the screen:
+    let text_shift = 0.65;
+    let text = acvs.selectAll("text").data(data);
+    text.enter().append("text")
+        .attr("x", (function (d) { return d.x + w / 3.25 + "" }))
+        .attr("y", (function (d) { return d.y + w / 1.35 + "" }))
+        .attr("fill", "white")
+        .attr("class", "ace_pretty_text")
+        .attr("font-size", w * text_shift + "")
+        .text(function (d) { return d.digit });
+    text.exit().remove();
 }
