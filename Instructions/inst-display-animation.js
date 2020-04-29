@@ -169,6 +169,9 @@ function twoGroupsDemo() {
     
 }
 
+/*
+    This function controls colored cue circles to flash alternatedly.
+*/
 function cueDemo(optColor, nonOptColor1, nonOptColor2) {
 
     // specify transition durations
