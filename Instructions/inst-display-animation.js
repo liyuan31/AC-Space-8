@@ -116,7 +116,7 @@ function threeColorsDemo() {
 */
 function twoGroupsDemo() {
 
-    const t = 1000;  // transtion duration
+    const t = 1500;  // transtion duration
     const dimColor = "#0a0a0a";
 
     // get the rgb value string for three colors
@@ -174,24 +174,65 @@ function cueDemo(optColor, nonOptColor1, nonOptColor2) {
     // specify transition durations
     const t = 1000;
 
+    // specify dimmed color
+    const dimColor = "#0a0a0a";
+
+    // get the rgb value string for three colors
+    const magenta = d3.select(".magenta").attr("fill");
+    const gray = d3.select(".gray").attr("fill");
+    const cyan = d3.select(".cyan").attr("fill");
+
     // create selections for groups
     const optSquares = d3.selectAll(`.${optColor}`);
-    const nonOpt1Squares = d3.selectAll(`.${nonOptColor1}`);
-    const nonOpt2Squares = d3.selectAll(`.${nonOptColor2}`);
+    const nonOptSquares = d3.selectAll(`.${nonOptColor1}, .${nonOptColor2}`);
 
     // create selections for inner cue circles
     const optCue = d3.select("#opt-cue-circle");
-    const nonOptCue1 = d3.select("#nonopt-cue-circle-1");
-    const nonOptCue2 = d3.select("#nonopt-cue-circle-2");
+    const nonOptCues = d3.selectAll("#nonopt-cue-circle-1, #nonopt-cue-circle-2");
 
     // start adding the animations
-    const flashOpt = function() {
+    const lightOptDimNonOpt = function() {
         optSquares.transition()
             .duration(t)
-            .attr("stroke", "yellow")
-            .attr("stroke-width", "0.7")
+            .attr("stroke", "white")
+            .attr("stroke-width", "0.6");
+        optCue.transition()
+            .duration(t)
+            .attr("stroke", "white")
+            .attr("stroke-width", "0.2");
+        nonOptSquares.transition()
+            .duration(t)
+            .attr("fill", dimColor)
+            .attr("stroke", null)
+            .attr("stroke-width", null);
+        nonOptCues.transition()
+            .duration(t)
+            .attr("stroke", null)
+            .attr("stroke-width", null)        
+            .on("end", dimOptLightNonOpt);
+    }
+
+    const dimOptLightNonOpt = function() {
+        optSquares.transition()
+            .duration(t)
+            .attr("fill", dimColor)
+            .attr("stroke", null)
+            .attr("stroke-width", null);
+        optCue.transition()
+            .duration(t)
+            .attr("stroke", null)
+            .attr("stroke-width", null)
+        nonOptSquares.transition()
+            .duration(t)
+            .attr("stroke", "white")
+            .attr("stroke-width", "0.6");
+        nonOptCues.transition()
+            .duration(t)
+            .attr("stroke", "white")
+            .attr("stroke-width", "0.2")
+            .on("end", lightOptDimNonOpt);
     }
 
     // pull the trigger
-    flashOpt();
+    lightOptDimNonOpt();
 }
