@@ -130,7 +130,6 @@ function draw_acvs(drawDigits = true) {
 
 }
 
-
 function addFooter() {
     const footer = svg
         .append("text")
@@ -142,14 +141,22 @@ function addFooter() {
         .attr("fill", "white");
 }
 
+/*
+    TODO: random in helper function should be fixed
+*/
 function drawCue() {
 
     // First get some necessary parameters from the parent element,
     // namely the center coordinates of the display.
-    const cx = 100 - d/2, cy = d/2;
+    const cx = 100 - d / 2, cy = d / 2;
+    // Also get the rgb value string for three colors.
+    const magenta = d3.select(".magenta").attr("fill");
+    const gray = d3.select(".gray").attr("fill");
+    const cyan = d3.select(".cyan").attr("fill");
 
-    // specify the radius of the cue circle
-    const r = 2.5;
+    // specify the radius of the outline circle and small color cue circles
+    const outerRadius = 2.5;
+    const innerRadius = 0.5;
 
     // draw the svgs
     const cue = svg.append("svg");
@@ -158,23 +165,67 @@ function drawCue() {
     const outline = cue.append("circle")
         .attr("cx", cx)
         .attr("cy", cy)
-        .attr("r", r)
+        .attr("r", outerRadius)
         .attr("stroke", "white")
         .attr("stroke-width", "0.2");
 
     // this is the divider
     const divider = cue.append("line")
-        .attr("x1", cx-r)
+        .attr("x1", cx - outerRadius)
         .attr("y1", cy)
-        .attr("x2", cx+r)
+        .attr("x2", cx + outerRadius)
         .attr("y2", cy)
         .attr("stroke", "white")
         .attr("stroke-width", "0.2");
 
-    // Now begin adding the colorful small cue circles.
-    // This is simplied because the demo display is staged.
-    // But in the actually experiment some randomization is needed.
-    
+    /*
+        Draw small circles in the cue that represent square colors.
+        @para
+            optColor, nonOptColor1, nonOptColor2: strings of color rgb
+            random: if true, randomize the spatial configuration of the colored circles
+                inside the cue
+    */
+    const addCueCircles = function (optColor, nonOptColor1, nonOptColor2, random=false) {
+        
+        // start figuring out the configuration
+        // optimal color circle side (i.e. the side where only one circle exists)
+        // -1: top 1: bottom
+        let optSide = -1;
+        // first non optimal color side
+        // -1: left 1: right
+        let nonOptOneSide = -1;
 
-    
+        // for demo display reproducibility, sometimes we don't want randomizations
+        if (random) {
+            // if we want randomizations, first decide which side to put the optimal color
+            Math.random() <= .5 ? optSide = 0 : optSide = 1;
+            // then decide which side the first non optimal target goes
+            Math.random() <= .5 ? nonOptOneSide = 0 : nonOptOneSide = 1;
+        }
+
+        // All set, start producing the circles
+        cue.append("circle")
+            .attr("id", "opt-cue-circle")
+            .attr("cx", cx)
+            .attr("cy", cy+optSide)
+            .attr("r", innerRadius)
+            .attr("fill", optColor);
+        cue.append("circle")
+            .attr("id", "nonopt-cue-circle-1")
+            .attr("cx", cx+nonOptOneSide)
+            .attr("cy", cy-optSide)
+            .attr("r", innerRadius)
+            .attr("fill", nonOptColor1);
+        cue.append("circle")
+            .attr("id", "nonopt-cue-circle-2")
+            .attr("cx", cx-nonOptOneSide)
+            .attr("cy", cy-optSide)
+            .attr("r", innerRadius)
+            .attr("fill", nonOptColor2);
+
+    }
+
+    // call the helper function to draw the small circles
+    addCueCircles(cyan, magenta, gray);
+
 }
