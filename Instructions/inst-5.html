@@ -28,7 +28,10 @@
         const d = 60;  // diameter of the whole acvs stimuli display
         const r = (d - w) / 2;    // outer ring radius
         const cx = 70 - w / 2, cy = 30 - w / 2;
-        const allColors = ["rgb(254, 0, 254)", "rgb(0, 150, 150)", "rgb(105, 105, 105)"];
+        const magenta = "rgb(254, 0, 254)";
+        const gray = "rgb(105, 105, 105)";
+        const cyan = "rgb(0, 150, 150)";
+        const allColors = [magenta, gray, cyan];
         const colors = "212100110212110220222111121020001022100010220020211120";    // for reproducible display
         const digits = "978669996768697888887889969677693997967787586886767679";
         let data = generate_data_for_all_squares(w, r, cx, cy, allColors, colors, digits);
@@ -59,7 +62,9 @@
 
         addFooter();
 
-        drawCue();
+        drawCue(cyan, magenta, gray);
+
+        cueDemo(cyan, magenta, gray);
 
     </script>
 </body>

@@ -129,8 +129,8 @@ function twoGroupsDemo() {
     const magentas = squares.filter(".magenta");
     const grays = squares.filter(".gray");
     const cyans = squares.filter(".cyan");
-    const nonMagenta = squares.filter(".gray, .cyan");
-    const nonGray = squares.filter(".magenta, .cyan");
+    // const nonMagenta = squares.filter(".gray, .cyan");
+    // const nonGray = squares.filter(".magenta, .cyan");
     const nonCyan = squares.filter(".magenta, .gray");
     
     // do the deed
@@ -167,4 +167,31 @@ function twoGroupsDemo() {
     lightMagentaAndGray();
 
     
+}
+
+function cueDemo(optColor, nonOptColor1, nonOptColor2) {
+
+    // specify transition durations
+    const t = 1000;
+
+    // create selections for groups
+    const optSquares = d3.selectAll(`.${optColor}`);
+    const nonOpt1Squares = d3.selectAll(`.${nonOptColor1}`);
+    const nonOpt2Squares = d3.selectAll(`.${nonOptColor2}`);
+
+    // create selections for inner cue circles
+    const optCue = d3.select("#opt-cue-circle");
+    const nonOptCue1 = d3.select("#nonopt-cue-circle-1");
+    const nonOptCue2 = d3.select("#nonopt-cue-circle-2");
+
+    // start adding the animations
+    const flashOpt = function() {
+        optSquares.transition()
+            .duration(t)
+            .attr("stroke", "yellow")
+            .attr("stroke-width", "0.7")
+    }
+
+    // pull the trigger
+    flashOpt();
 }
