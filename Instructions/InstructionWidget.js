@@ -33,19 +33,21 @@ InstructionWidget = class {
         //  A string representing the footer text, default set as shown
         this.footer_text = "Press <SPACE> to continue ...";
         // window.addEventListener("resize", this.draw_acvs.bind(this));
+        this.acvs_svg = parent_element.append("svg");
+        this.rects_selection = this.acvs_svg.selectAll("rects");
     }
 
     /**
      * Some accessor and setter methods.
      */
-    set_colors(colors) { 
+    set_colors(colors) {
         this.colors = colors;
         this.data = generate_data_for_all_squares(
             this.w, this.r, this.cx, this.cy, this.colors_rgb, this.colors, this.digits
         );
     }
     set_digits(digits) { this.digits = digits }
-    set_instruction_paragraphs(strs) { this.instruction_paragraphs = strs}
+    set_instruction_paragraphs(strs) { this.instruction_paragraphs = strs }
     set_footer_text(strs) { this.footer_text = strs }
 
 
@@ -187,8 +189,7 @@ InstructionWidget = class {
         //     text.exit().remove();
         // }
 
-        const acvs = this.parent_element.append("svg");
-        this.render_acvs(acvs);
+
 
 
     }
@@ -196,11 +197,13 @@ InstructionWidget = class {
 
     /**
      * 
-     * @param {*} parent_element 
+     * 
      */
-    render_acvs(parent_element) {
-        const rects = parent_element.selectAll("rect").data(this.data);
-        rects.enter().append("rect")
+    render_acvs() {
+        const selection = this.rects_selection;
+        const data = this.data;
+        selection.data(data)
+            .enter().append("rect")
             .attr("width", function (d) { return d.w })
             .attr("height", function (d) { return d.h })
             .attr("x", function (d) { return d.x })
@@ -222,12 +225,12 @@ InstructionWidget = class {
                     case "4":
                     case "5":
                         c += " target"; break;
-                     default: c += " nontarget"
+                    default: c += " nontarget"
                 }
                 return c;
             })
             .attr("id", function (d) { return `sq_${d.no}` })
-            .merge(rects)
+        .merge(selection)
             .transition(1000)
             .attr("width", function (d) { return d.w })
             .attr("height", function (d) { return d.h })
@@ -250,40 +253,25 @@ InstructionWidget = class {
                     case "4":
                     case "5":
                         c += " target"; break;
-                     default: c += " nontarget"
+                    default: c += " nontarget"
                 }
                 return c;
             })
             .attr("id", function (d) { return `sq_${d.no}` });
-        rects.exit().remove();
-
-        // if (include_digits) {
-        //     // Draw the text on the screen:
-        //     let text_shift = 0.65;
-        //     let text = acvs.selectAll("text").data(data);
-        //     text.enter().append("text")
-        //         .attr("x", (function (d) { return d.x + w / 3.25 + "" }))
-        //         .attr("y", (function (d) { return d.y + w / 1.35 + "" }))
-        //         .attr("fill", "white")
-        //         .attr("class", "ace_pretty_text")
-        //         .attr("font-size", w * text_shift + "")
-        //         .text(function (d) { return d.digit });
-        //     text.exit().remove();
-        // }
+        selection.exit().remove();
     }
-
 
     draw_instructions() {
         const lines = this.instruction_paragraphs;
         const texts = this.parent_element.append("svg");
         texts.selectAll("text").data(lines)
             .enter().append("text")
-            .text( function(d) { return d })
+            .text(function (d) { return d })
             .attr("x", 2)
             // TODO: it's very strange that when I write like d,i=>i*5 it won't work at all
-            .attr("y", function(d,i) { return (i+1)*4 } )
+            .attr("y", function (d, i) { return (i + 1) * 4 })
             .attr("font-size", w)
-            .attr("fill", "white");        
+            .attr("fill", "white");
     }
 
 
