@@ -33,8 +33,9 @@ InstructionWidget = class {
         //  A string representing the footer text, default set as shown
         this.footer_text = "Press <SPACE> to continue ...";
         // window.addEventListener("resize", this.draw_acvs.bind(this));
-        this.acvs_svg = parent_element.append("svg");
-        this.rects_selection = this.acvs_svg.selectAll("rects");
+        this.acvs_svg = parent_element.append("svg").attr("class", "acvs");
+        this.rects_selection = this.acvs_svg.selectAll("rect");
+        this.digits_selection = this.acvs_svg.selectAll("text");
     }
 
     /**
@@ -199,10 +200,10 @@ InstructionWidget = class {
      * 
      * 
      */
-    render_acvs() {
-        const selection = this.rects_selection;
+    acvs_render(include_digits=true) {
+        const rects = this.rects_selection;
         const data = this.data;
-        selection.data(data)
+        rects.data(data)
             .enter().append("rect")
             .attr("width", function (d) { return d.w })
             .attr("height", function (d) { return d.h })
@@ -230,7 +231,7 @@ InstructionWidget = class {
                 return c;
             })
             .attr("id", function (d) { return `sq_${d.no}` })
-        .merge(selection)
+        .merge(rects)
             .transition(1000)
             .attr("width", function (d) { return d.w })
             .attr("height", function (d) { return d.h })
@@ -258,8 +259,35 @@ InstructionWidget = class {
                 return c;
             })
             .attr("id", function (d) { return `sq_${d.no}` });
-        selection.exit().remove();
+        rects.exit().remove();
+
+        // Draw the digits on squares
+        if (include_digits) {
+            const texts = this.digits_selection;
+            const text_shift = 0.65;
+            const w = this.w;
+            texts.data(data)
+                .enter().append("text")
+                    .attr("x", (function (d) { return d.x + w / 3.25 + "" }))
+                    .attr("y", (function (d) { return d.y + w / 1.35 + "" }))
+                    .attr("fill", "white")
+                    .attr("class", "ace_pretty_text")
+                    .attr("font-size", w * text_shift + "")
+                    .text(function (d) { return d.digit });
+            texts.exit().remove();
+        }
+
     }
+
+
+    acvs_random_update() {
+        this.colors = "000000000000000000111111111111111111222222222222222222".shuffle();
+        this.data = generate_data_for_all_squares(
+            this.w, this.r, this.cx, this.cy, this.colors_rgb, this.colors, this.digits
+        );
+        this.acvs_render();
+    }
+
 
     draw_instructions() {
         const lines = this.instruction_paragraphs;
@@ -298,6 +326,9 @@ InstructionWidget = class {
     trigger_two_groups_demo() {
 
     }
+
+
+
 
 
 }

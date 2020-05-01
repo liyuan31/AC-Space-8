@@ -42,7 +42,7 @@
 
         // draw_acvs(drawDigits=false);
 
-        display.render_acvs();
+        display.acvs_render();
 
         let lines = [
             "- Of course, you will see",
@@ -56,10 +56,7 @@
         display.draw_instructions();
         display.draw_footer();
 
-        setTimeout( () => {
-            display.set_colors("022121021021101121122001010021110222011100220202012200");
-            display.render_acvs();
-        }, 1000 );
+        // setInterval( () => {display.acvs_random_update()}, 3000 );
         // display.set_colors("212100110212110220222111121020001022100010220220211010");
         // display.draw_acvs();
         // drawCue(cyan, magenta, gray);
