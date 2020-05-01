@@ -28,6 +28,10 @@ InstructionWidget = class {
         this.data = generate_data_for_all_squares(
             this.w, this.r, this.cx, this.cy, this.colors_rgb, this.colors, this.digits
         );
+        //  An array of strings representing lines to be displayed at the top left corner
+        this.instruction_paragraphs = [];
+        //  A string representing the footer text, default set as shown
+        this.footer_text = "Press <SPACE> to continue ...";
     }
 
     /**
@@ -35,6 +39,8 @@ InstructionWidget = class {
      */
     set_colors(colors) { this.colors = colors }
     set_digits(digits) { this.digits = digits }
+    set_instruction_paragraphs(strs) { this.instruction_paragraphs = strs}
+    set_footer_text(strs) { this.footer_text = strs }
 
 
     /**
@@ -177,9 +183,43 @@ InstructionWidget = class {
     }
 
 
+    draw_instructions() {
+        const lines = this.instruction_paragraphs;
+        const texts = this.parent_element.append("svg");
+        texts.selectAll("text").data(lines)
+            .enter().append("text")
+            .text( function(d) { return d })
+            .attr("x", 2)
+            // TODO: it's very strange that when I write like d,i=>i*5 it won't work at all
+            .attr("y", function(d,i) { return (i+1)*4 } )
+            .attr("font-size", w)
+            .attr("fill", "white");        
+    }
 
 
+    /**
+     * @TODO: footer coordinates not accessible
+     */
+    draw_footer() {
+        const str = this.footer_text;
+        this.parent_element.append("text")
+            .attr("id", "inst-footer")
+            .text(str)
+            .attr("x", "40")
+            .attr("y", "80")
+            .attr("font-size", w + "")
+            .attr("fill", "white");
+    }
 
+
+    draw_cue() {
+
+    }
+
+
+    trigger_two_groups_demo() {
+
+    }
 
 
 }

@@ -52,17 +52,9 @@
             "squares are separated",
             "into the two groups."
         ];
-        const texts = svg.append("svg");
-        texts.selectAll("text").data(lines)
-            .enter().append("text")
-            .text( function(d) { return d })
-            .attr("x", 2)
-            // TODO: it's very strange that when I write like d,i=>i*5 it won't work at all
-            .attr("y", function(d,i) { return (i+1)*4 } )
-            .attr("font-size", w)
-            .attr("fill", "white");
-
-        addFooter();
+        display.set_instruction_paragraphs(lines);
+        display.draw_instructions();
+        display.draw_footer();
 
         drawCue(cyan, magenta, gray);
 
