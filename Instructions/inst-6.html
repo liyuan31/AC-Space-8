@@ -38,9 +38,11 @@
 
         let display = new InstructionWidget(svg);
 
-        let data = generate_data_for_all_squares(w, r, cx, cy, allColors, colors, digits);
+        // let data = generate_data_for_all_squares(w, r, cx, cy, allColors, colors, digits);
 
-        draw_acvs(drawDigits=false);
+        // draw_acvs(drawDigits=false);
+
+        display.draw_acvs(include_digits=false);
 
         let lines = [
             "- Of course, you will see",
