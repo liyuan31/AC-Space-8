@@ -42,7 +42,7 @@
 
         // draw_acvs(drawDigits=false);
 
-        display.draw_acvs(include_digits=false);
+        display.draw_acvs(include_digits=true);
 
         let lines = [
             "- Of course, you will see",
@@ -56,9 +56,11 @@
         display.draw_instructions();
         display.draw_footer();
 
-        drawCue(cyan, magenta, gray);
+        display.set_colors("212100110212110220222111121020001022100010220020211010");
+        display.draw_acvs();
+        // drawCue(cyan, magenta, gray);
 
-        twoGroupsDemo();
+        // twoGroupsDemo();
 
         // cueDemo("cyan", "magenta", "gray");
 

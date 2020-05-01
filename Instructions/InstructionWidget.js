@@ -32,12 +32,18 @@ InstructionWidget = class {
         this.instruction_paragraphs = [];
         //  A string representing the footer text, default set as shown
         this.footer_text = "Press <SPACE> to continue ...";
+        // window.addEventListener("resize", this.draw_acvs.bind(this));
     }
 
     /**
      * Some accessor and setter methods.
      */
-    set_colors(colors) { this.colors = colors }
+    set_colors(colors) { 
+        this.colors = colors;
+        this.data = generate_data_for_all_squares(
+            this.w, this.r, this.cx, this.cy, this.colors_rgb, this.colors, this.digits
+        );
+    }
     set_digits(digits) { this.digits = digits }
     set_instruction_paragraphs(strs) { this.instruction_paragraphs = strs}
     set_footer_text(strs) { this.footer_text = strs }
@@ -134,10 +140,66 @@ InstructionWidget = class {
      * @param {boolean} include_digits 
      */
     draw_acvs(include_digits = true) {
-        const data = this.data;
-        // Draw the rectangles on the screen:
+        // const data = this.data;
+        // // Draw the rectangles on the screen:
+        // const acvs = this.parent_element.append("svg");
+        // const rects = acvs.selectAll("rect").data(data);
+        // rects.enter().append("rect")
+        //     .attr("width", function (d) { return d.w })
+        //     .attr("height", function (d) { return d.h })
+        //     .attr("x", function (d) { return d.x })
+        //     .attr("y", function (d) { return d.y })
+        //     .attr("fill", function (d) { return d.fill })
+        //     .attr("class", function (d) {
+        //         // create a string representing class names
+        //         let c = "";
+        //         // add color names as a first class
+        //         switch (d.fill) {
+        //             case "rgb(254, 0, 254)": c = "magenta"; break;
+        //             case "rgb(0, 150, 150)": c = "cyan"; break;
+        //             case "rgb(105, 105, 105)": c = "gray"
+        //         }
+        //         // add target/nontarget info as a second class
+        //         switch (d.digit) {
+        //             case "2":
+        //             case "3":
+        //             case "4":
+        //             case "5":
+        //                 c += " target"; break;
+        //              default: c += " nontarget"
+        //         }
+        //         return c;
+        //     })
+        //     .attr("id", function (d) { return `sq_${d.no}` })
+        // rects.exit().remove();
+
+        // if (include_digits) {
+        //     // Draw the text on the screen:
+        //     let text_shift = 0.65;
+        //     let text = acvs.selectAll("text").data(data);
+        //     text.enter().append("text")
+        //         .attr("x", (function (d) { return d.x + w / 3.25 + "" }))
+        //         .attr("y", (function (d) { return d.y + w / 1.35 + "" }))
+        //         .attr("fill", "white")
+        //         .attr("class", "ace_pretty_text")
+        //         .attr("font-size", w * text_shift + "")
+        //         .text(function (d) { return d.digit });
+        //     text.exit().remove();
+        // }
+
         const acvs = this.parent_element.append("svg");
-        const rects = acvs.selectAll("rect").data(data);
+        this.render_acvs(acvs);
+
+
+    }
+
+
+    /**
+     * 
+     * @param {*} parent_element 
+     */
+    render_acvs(parent_element) {
+        const rects = parent_element.selectAll("rect").data(this.data);
         rects.enter().append("rect")
             .attr("width", function (d) { return d.w })
             .attr("height", function (d) { return d.h })
@@ -160,26 +222,54 @@ InstructionWidget = class {
                     case "4":
                     case "5":
                         c += " target"; break;
-                    default: c += " nontarget"
+                     default: c += " nontarget"
+                }
+                return c;
+            })
+            .attr("id", function (d) { return `sq_${d.no}` })
+            .merge(rects)
+            .transition(1000)
+            .attr("width", function (d) { return d.w })
+            .attr("height", function (d) { return d.h })
+            .attr("x", function (d) { return d.x })
+            .attr("y", function (d) { return d.y })
+            .attr("fill", function (d) { return d.fill })
+            .attr("class", function (d) {
+                // create a string representing class names
+                let c = "";
+                // add color names as a first class
+                switch (d.fill) {
+                    case "rgb(254, 0, 254)": c = "magenta"; break;
+                    case "rgb(0, 150, 150)": c = "cyan"; break;
+                    case "rgb(105, 105, 105)": c = "gray"
+                }
+                // add target/nontarget info as a second class
+                switch (d.digit) {
+                    case "2":
+                    case "3":
+                    case "4":
+                    case "5":
+                        c += " target"; break;
+                     default: c += " nontarget"
                 }
                 return c;
             })
             .attr("id", function (d) { return `sq_${d.no}` });
         rects.exit().remove();
 
-        if (include_digits) {
-            // Draw the text on the screen:
-            let text_shift = 0.65;
-            let text = acvs.selectAll("text").data(data);
-            text.enter().append("text")
-                .attr("x", (function (d) { return d.x + w / 3.25 + "" }))
-                .attr("y", (function (d) { return d.y + w / 1.35 + "" }))
-                .attr("fill", "white")
-                .attr("class", "ace_pretty_text")
-                .attr("font-size", w * text_shift + "")
-                .text(function (d) { return d.digit });
-            text.exit().remove();
-        }
+        // if (include_digits) {
+        //     // Draw the text on the screen:
+        //     let text_shift = 0.65;
+        //     let text = acvs.selectAll("text").data(data);
+        //     text.enter().append("text")
+        //         .attr("x", (function (d) { return d.x + w / 3.25 + "" }))
+        //         .attr("y", (function (d) { return d.y + w / 1.35 + "" }))
+        //         .attr("fill", "white")
+        //         .attr("class", "ace_pretty_text")
+        //         .attr("font-size", w * text_shift + "")
+        //         .text(function (d) { return d.digit });
+        //     text.exit().remove();
+        // }
     }
 
 
