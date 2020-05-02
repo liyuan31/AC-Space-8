@@ -42,7 +42,7 @@
 
         // draw_acvs(drawDigits=false);
 
-        display.acvs_render();
+        display.acvs_render(include_digits=true,include_cue=true);
 
         let lines = [
             "- Of course, you will see",
@@ -59,7 +59,7 @@
         for (let i = 0; i < 5; i++) {
             setTimeout( () => {display.acvs_random_update()}, 2000*(i+1) );
         }
-        
+
         // drawCue(cyan, magenta, gray);
 
         // twoGroupsDemo();

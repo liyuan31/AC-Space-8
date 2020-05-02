@@ -152,7 +152,7 @@ InstructionWidget = class {
      * 
      * 
      */
-    acvs_render(include_digits = true) {
+    acvs_render(include_digits = true, include_cue = false) {
         const rects = this.rects_selection;
         const data = this.data;
         rects.data(data)
@@ -233,6 +233,10 @@ InstructionWidget = class {
             texts.exit().remove();
         }
 
+        if (include_cue) {
+            this.draw_cue();
+        }
+
     }
 
 
@@ -276,7 +280,70 @@ InstructionWidget = class {
 
 
     draw_cue() {
-        
+        console.log(d3.selectAll(".target").attr("fill"));
+        // First get some necessary parameters from the parent element,
+        // namely the center coordinates of the display.
+        const cx = 100 - d / 2, cy = d / 2;
+
+        // specify the radius of the outline circle and small color cue circles
+        const outerRadius = 2.5;
+        const innerRadius = 0.5;
+
+        // draw the svgs
+        const cue = svg.append("svg");
+
+        // this is the outline circle of the cue
+        const outline = cue.append("circle")
+            .attr("cx", cx)
+            .attr("cy", cy)
+            .attr("r", outerRadius)
+            .attr("stroke", "white")
+            .attr("stroke-width", "0.2");
+
+        // this is the divider
+        const divider = cue.append("line")
+            .attr("x1", cx - outerRadius)
+            .attr("y1", cy)
+            .attr("x2", cx + outerRadius)
+            .attr("y2", cy)
+            .attr("stroke", "white")
+            .attr("stroke-width", "0.2");
+
+        // start figuring out the configuration
+        // optimal color circle side (i.e. the side where only one circle exists)
+        // -1: top 1: bottom
+        let optSide = -1;
+        // first non optimal color side
+        // -1: left 1: right
+        let nonOptOneSide = -1;
+
+        // for demo display reproducibility, sometimes we don't want randomizations
+        if (random) {
+            // if we want randomizations, first decide which side to put the optimal color
+            Math.random() <= .5 ? optSide = 0 : optSide = 1;
+            // then decide which side the first non optimal target goes
+            Math.random() <= .5 ? nonOptOneSide = 0 : nonOptOneSide = 1;
+        }
+
+        // All set, start producing the circles
+        cue.append("circle")
+            .attr("id", "opt-cue-circle")
+            .attr("cx", cx)
+            .attr("cy", cy + optSide)
+            .attr("r", innerRadius)
+            .attr("fill", optColor);
+        cue.append("circle")
+            .attr("id", "nonopt-cue-circle-1")
+            .attr("cx", cx + nonOptOneSide)
+            .attr("cy", cy - optSide)
+            .attr("r", innerRadius)
+            .attr("fill", nonOptColor1);
+        cue.append("circle")
+            .attr("id", "nonopt-cue-circle-2")
+            .attr("cx", cx - nonOptOneSide)
+            .attr("cy", cy - optSide)
+            .attr("r", innerRadius)
+            .attr("fill", nonOptColor2);
     }
 
 
