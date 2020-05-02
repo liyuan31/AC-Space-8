@@ -33,10 +33,13 @@ InstructionWidget = class {
         //  A string representing the footer text, default set as shown
         this.footer_text = "Press <SPACE> to continue ...";
         // window.addEventListener("resize", this.draw_acvs.bind(this));
+
+        //  Selections essential to the display
         this.acvs_svg = parent_element.append("svg").attr("class", "acvs");
         this.rects_selection = this.acvs_svg.selectAll("rect");
         this.digits_selection = this.acvs_svg.selectAll("text");
     }
+
 
     /**
      * Some accessor and setter methods.
@@ -273,7 +276,10 @@ InstructionWidget = class {
                     .attr("fill", "white")
                     .attr("class", "ace_pretty_text")
                     .attr("font-size", w * text_shift + "")
-                    .text(function (d) { return d.digit });
+                    .text(function (d) { return d.digit })
+                .merge(texts)
+                    .transition()
+                    .attr();
             texts.exit().remove();
         }
 
