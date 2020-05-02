@@ -22,7 +22,7 @@ InstructionWidget = class {
         this.cyan = "rgb(0, 150, 150)";
         this.colors_rgb = [magenta, gray, cyan];
         //  This string represents the colors and digits of the squares
-        this.colors = "000000000000000000111111111111111111222222222222222222";
+        this.colors = "212100110212110220222111121020001022100010220020211120";
         this.digits = "978669996768697888887889969677693997967787586886767679";
         //  The data of the display for d3 to use
         this.data = null;
@@ -131,9 +131,19 @@ InstructionWidget = class {
             for (let i = startIndex; i <= endIndex; i++) { result.push(`${i}`) }
             return result;
         }
-        const data = generate_data_for_one_ring_of_squares(r, 24, cx, cy, w, get_a_list_of_colors(24), get_a_list_of_positions(0, 23), get_a_list_of_digits(24))
-            .concat(generate_data_for_one_ring_of_squares(r * 0.75, 18, cx, cy, w, get_a_list_of_colors(18), get_a_list_of_positions(24, 41), get_a_list_of_digits(18))
-                .concat(generate_data_for_one_ring_of_squares(r * 0.50, 12, cx, cy, w, get_a_list_of_colors(12), get_a_list_of_positions(42, 54), get_a_list_of_digits(12))));
+        // let positions = [];
+        // for (let i = 0; i < 54; i++) { positions.push(`${i}`) }
+        // fisher_yates_shuffle(positions);
+        // const get_a_list_of_positions = function (n) {
+        //     let result = [];
+        //     for (let i = 0; i < n; i++) {
+        //         result.push(positions.pop());
+        //     }
+        //     return result;
+        // }
+        const data = generate_data_for_one_ring_of_squares(r, 24, cx, cy, w, get_a_list_of_colors(24), get_a_list_of_positions(0,23), get_a_list_of_digits(24))
+            .concat(generate_data_for_one_ring_of_squares(r * 0.75, 18, cx, cy, w, get_a_list_of_colors(18), get_a_list_of_positions(24,41), get_a_list_of_digits(18))
+                .concat(generate_data_for_one_ring_of_squares(r * 0.50, 12, cx, cy, w, get_a_list_of_colors(12), get_a_list_of_positions(42,53), get_a_list_of_digits(12))));
         this.data = data;
     }
 
@@ -216,35 +226,35 @@ InstructionWidget = class {
             .attr("height", function (d) { return d.h })
             .attr("x", function (d) { return d.x })
             .attr("y", function (d) { return d.y })
-            .attr("fill", function (d) { return d.fill })
-            .attr("class", function (d) {
-                // create a string representing class names
-                let c = "";
-                // add color names as a first class
-                switch (d.fill) {
-                    case "rgb(254, 0, 254)": c = "magenta"; break;
-                    case "rgb(0, 150, 150)": c = "cyan"; break;
-                    case "rgb(105, 105, 105)": c = "gray"
-                }
-                // add target/nontarget info as a second class
-                switch (d.digit) {
-                    case "2":
-                    case "3":
-                    case "4":
-                    case "5":
-                        c += " target"; break;
-                    default: c += " nontarget"
-                }
-                return c;
-            })
-            .attr("id", function (d) { return `sq_${d.no}` })
+            // .attr("fill", function (d) { return d.fill })
+            // .attr("class", function (d) {
+            //     // create a string representing class names
+            //     let c = "";
+            //     // add color names as a first class
+            //     switch (d.fill) {
+            //         case "rgb(254, 0, 254)": c = "magenta"; break;
+            //         case "rgb(0, 150, 150)": c = "cyan"; break;
+            //         case "rgb(105, 105, 105)": c = "gray"
+            //     }
+            //     // add target/nontarget info as a second class
+            //     switch (d.digit) {
+            //         case "2":
+            //         case "3":
+            //         case "4":
+            //         case "5":
+            //             c += " target"; break;
+            //         default: c += " nontarget"
+            //     }
+            //     return c;
+            // })
+            // .attr("id", function (d) { return `sq_${d.pos}` })
         .merge(rects)
             .transition()
             .duration(500)
-            .attr("width", function (d) { return d.w })
-            .attr("height", function (d) { return d.h })
-            .attr("x", function (d) { return d.x })
-            .attr("y", function (d) { return d.y })
+            // .attr("width", function (d) { return d.w })
+            // .attr("height", function (d) { return d.h })
+            // .attr("x", function (d) { return d.x })
+            // .attr("y", function (d) { return d.y })
             .attr("fill", function (d) { return d.fill })
             .attr("class", function (d) {
                 // create a string representing class names
@@ -266,7 +276,7 @@ InstructionWidget = class {
                 }
                 return c;
             })
-            .attr("id", function (d) { return `sq_${d.no}` });
+            .attr("id", function (d) { return `sq_${d.pos}` });
         rects.exit().remove();
 
         // Draw the digits on squares
@@ -292,8 +302,8 @@ InstructionWidget = class {
 
 
     acvs_random_update() {
-        this.colors = "000000000000000000111111111111111111222222222222222222".shuffle();
-        this.data = generate_data(
+        this.colors = "212100110212110220222111121020001022100010220020211120".shuffle();
+        this.generate_data(
             this.w, this.r, this.cx, this.cy, this.colors_rgb, this.colors, this.digits
         );
         this.acvs_render();
@@ -337,7 +347,6 @@ InstructionWidget = class {
     trigger_two_groups_demo() {
 
     }
-
 
 
 

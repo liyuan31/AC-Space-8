@@ -27,3 +27,24 @@ String.prototype.shuffle = function () {
     }
     return a.join("");
 }
+
+
+function gen_random_int (min, max, inclusive=false) {
+    if (inclusive == false){
+      return Math.floor(Math.random() * (max-min)) + min;
+    } else {
+      return Math.floor(Math.random() * (max-min+1)) + min;
+    }
+}
+
+function fisher_yates_shuffle (arr) {
+    let j = undefined;
+    let k = undefined;
+    for (let i = arr.length-1; i >=0; i--){
+      j = gen_random_int(0,i,true);
+      k = arr[j];
+      arr[j] = arr[i];
+      arr[i] = k;
+    }
+    return arr;
+}

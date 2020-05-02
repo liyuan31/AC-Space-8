@@ -7,7 +7,7 @@ class Square {
         this.h = h; // height
         this.fill = fill; // color
         // ACVS-specific things
-        this.no = no; // square number, or, position
+        this.pos = no; // square number, or, position
         this.digit = digit; // text on square
     }
 }
