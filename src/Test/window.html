@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="a"></div>
+    <script>
+        window.addEventListener("resize", resized);
+        console.log(screen.availHeight);
+        function resized() {
+            console.log("resized");
+            console.log(`screen.availHeight: ${screen.availHeight}`);
+            console.log(`screen.height: ${screen.height}`);
+            console.log(`window.innerHeight: ${window.innerHeight}`);
+            if ((screen.availHeight - 100) <= window.innerHeight) {
+                console.log("good");
+            }
+        }
+
+    </script>
+</body>
+
+</html>
