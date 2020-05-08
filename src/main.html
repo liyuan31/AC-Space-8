@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,12 +8,52 @@
     <link rel="stylesheet" type="text/css" href="ac-style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.min.js"></script>
 </head>
+
 <body>
     <div class="master-container"></div>
     <script src="Scripts/Namespace.js"></script>
     <script src="Scripts/Gui.js"></script>
     <script>
-        ui.html.get_workspace();
+        get_workspace();
+        const ctx = document.getElementById('workspace').getContext('2d');
+
+        function draw() {
+
+            ctx.fillRect(0, 0, 150, 150);   // Draw a rectangle with default settings
+            ctx.save();                  // Save the default state
+
+            ctx.fillStyle = '#09F';      // Make changes to the settings
+            ctx.fillRect(15, 15, 120, 120); // Draw a rectangle with new settings
+
+            ctx.save();                  // Save the current state
+            ctx.fillStyle = '#FFF';      // Make changes to the settings
+            ctx.globalAlpha = 0.5;
+            ctx.fillRect(30, 30, 90, 90);   // Draw a rectangle with new settings
+
+            ctx.restore();               // Restore previous state
+            ctx.fillRect(45, 45, 60, 60);   // Draw a rectangle with restored settings
+
+            ctx.restore();               // Restore original state
+            ctx.fillRect(60, 60, 30, 30);   // Draw a rectangle with restored settings
+        }
+        function draw_a_circle() {
+            const cx = 100;
+            const cy = 100;
+            const r = 50;
+            let grid_pos = [];
+            for (let i = 0; i < 12; i++) {
+                let x = cx + Math.cos(2*Math.PI/12*i)*r;
+                let y = cy + Math.sin(2*Math.PI/12*i)*r;
+                grid_pos.push([x, y]);
+            }
+            for (let i = 0; i < 12; i++) {
+                ctx.fillRect(grid_pos[i][0], grid_pos[i][1], 10, 10);
+                ctx.fillStyle = "black";
+                ctx.save();
+            }
+        }
+        draw_a_circle();
     </script>
 </body>
+
 </html>
